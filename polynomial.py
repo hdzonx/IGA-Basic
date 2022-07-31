@@ -1,8 +1,10 @@
-'''Parametric construction of a 2nd order polynomial curve'''
-# Nodal coordinates xi and yi
-#xi = a0 + a1*t + a2*t**2
-#yi = b0 + b1*t + b2*t**2
-# For this example P0(-5,2) P1(3,5) P2(9,2) are the control points
+'''Parametric construction of a 2nd order polynomial curve
+Reference book: Gan, B. (2018). "An Isogeometric aprroach to beam structures". Springer.
+Nodal coordinates xi and yi
+xi = a0 + a1*t + a2*t**2
+yi = b0 + b1*t + b2*t**2
+For this example P0(-5,2) P1(3,5) P2(9,2) are the points of the curve'''
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,7 +16,7 @@ csi1 = -1
 csi2 = 0
 csi3 = 1
 
-#Parametrix matrix
+#Parametric matrix
 T = [[1, csi1,  csi1**2,  0,    0,       0],
      [1, csi2,  csi2**2,  0,    0,       0],
      [1, csi3,  csi3**2,  0,    0,       0],
@@ -22,7 +24,7 @@ T = [[1, csi1,  csi1**2,  0,    0,       0],
      [0,  0,     0,       1,  csi2, csi2**2],
      [0,  0,     0,       1,  csi3, csi3**2]]
 
-#Invese of the parametrix matrix
+#Invese of the parametric matrix
 #AX=B
 #AA^-1X=BA^-1
 #X=BA^-1
