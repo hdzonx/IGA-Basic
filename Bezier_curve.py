@@ -8,9 +8,10 @@ Bi,n(ξ) is the Bernstein polynomial of order n.
 Pxi and Pyi are the control points.
 Reference book: Gan, B. (2018). "An Isogeometric aprroach to beam structures." Springer.
 """
-from xml.sax.saxutils import prepare_input_source
+
 import numpy as np
 import matplotlib.pyplot as plt
+from lin_algebra import Matrix
 
 
 def factorial(n):
@@ -24,7 +25,7 @@ def factorial(n):
 def Bernstein(n, i, t):
     """Bernstein polynomial of order n and i in the range -1 ≤ ξ ≤ 1.
     In the function, n is the order of the Bernstein polynomial, i is the
-    index. t == ξ."""
+    index. t == ξ and -1 ≤ ξ ≤ 1."""
     return (factorial(n) / (factorial(i) * factorial(n - i)))*(((1+t)/2)**i)*((1-t)/2)**(n-i)
 
 
@@ -45,13 +46,6 @@ def Bezier_curve(n, P):
     return x, y
 
 
-#n = 2
-#dt = 1/50
-#t_array = np.arange(-1, 1, dt)
-#y_arr = []
-#y = 0
-
-
 def get_Bernstein_function_only(n, i):
     """get only Bernstein function of order n in 
     the range -1 ≤ ξ ≤ 1, for index i."""
@@ -66,20 +60,40 @@ def get_Bernstein_function_only(n, i):
     return t_array, y_arr
 
 
-def plot_Bernstein_curves(n, i):
-    """plot Bernstein curve of order n and index i 
+def plot_Bernstein_curves(n):
+    """plot Bernstein curve of polinominal order n and index from zero to n. 
     in the range -1 ≤ ξ ≤ 1."""
+    i = n
     for j in range(i + 1):
         t_array, y_arraY = get_Bernstein_function_only(n, j)
         plt.plot(t_array, y_arraY, label = "i = " + str(j))
     #Plotting the Bernstein curve    
-    plt.title('Bernstein curve for n = ' + str(n))
+    plt.title('Bernstein curve for polinomial order n = ' + str(n))
     plt.legend()
     plt.xlabel('ξ')
     plt.ylabel('B_{i,n}(ξ)')
     plt.show()
 
 
+def Matrix_of_Bernstein_functions(n, t):
+    """Matrix of Bernstein functions of order n in the range -1 ≤ ξ ≤ 1."""
+    matrix = Matrix.Matrix(n+1, n+1)
+    for i in range(n+1):
+        for j in range(n+1):
+            matrix.data[i][j] = Bernstein(n, j, t[i])
+    return matrix
+
+
+
 #Call the function to plot the Bernstein curves
-plot_Bernstein_curves(4, 4)
+polinomial_Order = 2
+Control_Points = [[-5, 2], [3, 5], [9, 2]] #Control points matrix wich x= first column and y = second column
+
+
+plot_Bernstein_curves(polinomial_Order)
+
+t = [-1, 0, 1]
+matrix1 = Matrix_of_Bernstein_functions(polinomial_Order, t)
+
+print(matrix1)
 
